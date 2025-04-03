@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble - Gerador de Senhas Seguras</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .banner {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--accent);
+            box-shadow: 0 4px 8px rgba(253, 121, 168, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: #ff8fab;
+            box-shadow: 0 6px 12px rgba(253, 121, 168, 0.4);
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+            flex: 1 1 300px;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .terms {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .terms h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .terms p {
+            margin-bottom: 1rem;
+        }
+        
+        .highlight {
+            background: #fffde7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <!-- Logo local -->
+                <img src="02.png" alt="Logo Bubble" class="logo floating">
+            </div>
+            <h1>Bubble</h1>
+            <p class="tagline">Gerador de Senhas Seguras para o Telegram</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Banner local -->
+        <img src="03.png" alt="Banner Bubble" class="banner">
+        
+        <section>
+            <h2>🔒 Sobre o Bubble</h2>
+            <p>O Bubble é um bot avançado para o Telegram que gera senhas seguras e únicas, protegendo suas contas online com criptografia de última geração.</p>
+            
+            <div class="btn-group">
+                <a href="https://t.me/YourBotUsername" class="btn">👉 Usar no Telegram</a>
+                <a href="https://t.me/+i__Y3elRlOoyMDRh" class="btn btn-secondary">👥 Grupo de Suporte</a>
+            </div>
+        </section>
+        
+        <section>
+            <h2>✨ Recursos</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <h3>Tipos de Senha</h3>
+                    <p>Gere senhas com números, letras, símbolos ou combinações personalizadas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Segurança Máxima</h3>
+                    <p>Algoritmos criptográficos para senhas realmente aleatórias e únicas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Histórico Pessoal</h3>
+                    <p>Acesso às suas últimas senhas geradas (apenas você pode ver)</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="terms">
+            <h2>📄 Termos de Serviço</h2>
+            
+            <h3>1. Aceitação dos Termos</h3>
+            <p>Ao utilizar o Bubble ("Bot"), você concorda com estes Termos de Serviço e com nossa Política de Privacidade.</p>
+            
+            <h3>2. Uso do Serviço</h3>
+            <p>O Bubble é um gerador de senhas seguro destinado a criar credenciais robustas para proteção de contas online.</p>
+            
+            <h3>3. Proteção de Senhas</h3>
+            <p class="highlight">Todas as senhas geradas pelo Bubble são protegidas em nosso banco de dados, e totalmente Seguras.</p>
+            
+            <h3>4. Responsabilidade</h3>
+            <p>Você é o único responsável pelo armazenamento e uso seguro das senhas geradas. Recomendamos o uso de um gerenciador de senhas confiável.</p>
+            
+            <h3>5. Limitações</h3>
+            <p>O Bubble não garante a segurança de contas protegidas com senhas geradas pelo serviço. A segurança final depende de suas práticas de proteção.</p>
+            
+            <h3>6. Modificações</h3>
+            <p>Estes termos podem ser atualizados periodicamente. O uso continuado do Bot após alterações constitui aceitação dos novos termos.</p>
+            
+            <h3>7. Contato</h3>
+            <p>Para questões sobre estes termos, entre em contato através do nosso <a href="https://t.me/+i__Y3elRlOoyMDRh">Grupo de Suporte</a>.</p>
+        </section>
+        
+        <section>
+            <h2>🚀 Comece Agora</h2>
+            <p>Proteja suas contas online com senhas fortes e únicas geradas pelo Bubble!</p>
+            <div class="btn-group">
+                <a href="https://t.me/YourBotUsername" class="btn">💬 Abrir no Telegram</a>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 Bubble - Gerador de Senhas Seguras</p>
+            <p>Todos os direitos reservados</p>
+            <div class="btn-group" style="margin-top: 1rem;">
+                <!-- Mantido apenas o botão de suporte -->
+                <a href="https://t.me/+i__Y3elRlOoyMDRh" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Suporte</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animação adicional para os botões
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+        
+        // Efeito de digitação no título
+        const tagline = document.querySelector('.tagline');
+        if (tagline) {
+            const originalText = tagline.textContent;
+            tagline.textContent = '';
+            
+            let i = 0;
+            const typingEffect = setInterval(() => {
+                if (i < originalText.length) {
+                    tagline.textContent += originalText.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typingEffect);
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
